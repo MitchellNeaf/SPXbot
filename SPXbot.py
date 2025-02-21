@@ -4,6 +4,8 @@ import asyncio
 import datetime
 from telegram import Bot
 import config_spx as config  # Import SPX-specific config
+import datetime
+import pytz  # Time zone handling
 
 # Initialize Telegram bot
 bot = Bot(token=config.TELEGRAM_BOT_TOKEN)
@@ -13,7 +15,9 @@ alert_sent = False
 
 def is_market_open():
     """Check if the market is open (Monday to Friday, 9:30 AM - 4:00 PM ET)"""
-    now = datetime.datetime.now()
+    ny_tz = pytz.timezone("America/New_York")
+    now = datetime.datetime.now(ny_tz)  # Get current time in Eastern Time
+
     market_open_time = datetime.time(9, 30)  # 9:30 AM ET
     market_close_time = datetime.time(16, 0)  # 4:00 PM ET
 
